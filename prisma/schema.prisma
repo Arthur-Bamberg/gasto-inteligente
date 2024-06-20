@@ -1,0 +1,80 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model categorias {
+  id         BigInt    @id @default(autoincrement())
+  nome       String
+  usuario_id BigInt?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  usuario    usuarios?    @relation(fields: [usuario_id], references: [id])
+  lojas      lojas[]
+  transacoes transacoes[]
+}
+
+model contas {
+  id         BigInt    @id @default(autoincrement())
+  nome       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+}
+
+model lojas {
+  id           BigInt    @id @default(autoincrement())
+  nome         String
+  categoria_id BigInt?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+
+  categoria  categorias?  @relation(fields: [categoria_id], references: [id])
+  transacoes transacoes[]
+}
+
+model transacoes {
+  id           BigInt        @id @default(autoincrement())
+  valor        Float
+  tipo         TipoTransacao
+  data         DateTime
+  descricao    String?
+  categoria_id BigInt?
+  loja_id      BigInt?
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  deleted_at   DateTime?
+
+  categoria categorias? @relation(fields: [categoria_id], references: [id])
+  loja      lojas?      @relation(fields: [loja_id], references: [id])
+
+  @@index([tipo], name: "tipo")
+  @@index([categoria_id], name: "categoria_id")
+  @@index([loja_id], name: "loja_id")
+  @@index([updated_at], name: "updated_at")
+}
+
+model usuarios {
+  id         BigInt    @id @default(autoincrement())
+  nome       String
+  email      String    @unique
+  senha      String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  categorias categorias[]
+}
+
+enum TipoTransacao {
+  RECEITA
+  DESPESA
+  INVESTIMENTO
+}

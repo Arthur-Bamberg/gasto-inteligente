@@ -18,14 +18,42 @@ model categorias {
   usuario    usuarios?    @relation(fields: [usuario_id], references: [id])
   lojas      lojas[]
   transacoes transacoes[]
+
+  @@index([created_at], name: "categorias_created_at_idx")
+  @@index([updated_at], name: "categorias_updated_at_idx")
+  @@index([deleted_at], name: "categorias_deleted_at_idx")
+}
+
+model bancos {
+  id           BigInt    @id @default(autoincrement())
+  nome         String
+  chave        String
+  cod_febraban Int?
+  site         String?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+
+  contas contas[]
+
+  @@index([created_at], name: "bancos_created_at_idx")
+  @@index([updated_at], name: "bancos_updated_at_idx")
+  @@index([deleted_at], name: "bancos_deleted_at_idx")
 }
 
 model contas {
   id         BigInt    @id @default(autoincrement())
   nome       String
+  banco_id   BigInt
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
+
+  banco bancos @relation(fields: [banco_id], references: [id])
+
+  @@index([created_at], name: "contas_created_at_idx")
+  @@index([updated_at], name: "contas_updated_at_idx")
+  @@index([deleted_at], name: "contas_deleted_at_idx")
 }
 
 model lojas {
@@ -38,6 +66,10 @@ model lojas {
 
   categoria  categorias?  @relation(fields: [categoria_id], references: [id])
   transacoes transacoes[]
+
+  @@index([created_at], name: "lojas_created_at_idx")
+  @@index([updated_at], name: "lojas_updated_at_idx")
+  @@index([deleted_at], name: "lojas_deleted_at_idx")
 }
 
 model transacoes {
@@ -59,18 +91,25 @@ model transacoes {
   @@index([categoria_id], name: "categoria_id")
   @@index([loja_id], name: "loja_id")
   @@index([updated_at], name: "updated_at")
+  @@index([created_at], name: "transacoes_created_at_idx")
+  @@index([deleted_at], name: "transacoes_deleted_at_idx")
 }
 
 model usuarios {
-  id         BigInt    @id @default(autoincrement())
-  nome       String
-  email      String    @unique
-  senha      String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
+  id                 BigInt    @id @default(autoincrement())
+  nome               String
+  email              String    @unique
+  senha              String
+  codigo_recuperacao String?
+  created_at         DateTime  @default(now())
+  updated_at         DateTime  @updatedAt
+  deleted_at         DateTime?
 
   categorias categorias[]
+
+  @@index([created_at], name: "usuarios_created_at_idx")
+  @@index([updated_at], name: "usuarios_updated_at_idx")
+  @@index([deleted_at], name: "usuarios_deleted_at_idx")
 }
 
 enum TipoTransacao {

@@ -45,11 +45,13 @@ model contas {
   id         BigInt    @id @default(autoincrement())
   nome       String
   banco_id   BigInt
+  usuario_id BigInt
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  banco bancos @relation(fields: [banco_id], references: [id])
+  banco   bancos   @relation(fields: [banco_id], references: [id])
+  usuario usuarios @relation(fields: [usuario_id], references: [id])
 
   @@index([created_at], name: "contas_created_at_idx")
   @@index([updated_at], name: "contas_updated_at_idx")
@@ -60,10 +62,12 @@ model lojas {
   id           BigInt    @id @default(autoincrement())
   nome         String
   categoria_id BigInt?
+  usuario_id   BigInt?
   created_at   DateTime  @default(now())
   updated_at   DateTime  @updatedAt
   deleted_at   DateTime?
 
+  usuario    usuarios?    @relation(fields: [usuario_id], references: [id])
   categoria  categorias?  @relation(fields: [categoria_id], references: [id])
   transacoes transacoes[]
 
@@ -80,12 +84,14 @@ model transacoes {
   descricao    String?
   categoria_id BigInt?
   loja_id      BigInt?
+  usuario_id   BigInt
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   deleted_at   DateTime?
 
   categoria categorias? @relation(fields: [categoria_id], references: [id])
   loja      lojas?      @relation(fields: [loja_id], references: [id])
+  usuario   usuarios    @relation(fields: [usuario_id], references: [id])
 
   @@index([tipo], name: "tipo")
   @@index([categoria_id], name: "categoria_id")
@@ -106,6 +112,9 @@ model usuarios {
   deleted_at         DateTime?
 
   categorias categorias[]
+  contas     contas[]
+  lojas      lojas[]
+  transacoes transacoes[]
 
   @@index([created_at], name: "usuarios_created_at_idx")
   @@index([updated_at], name: "usuarios_updated_at_idx")

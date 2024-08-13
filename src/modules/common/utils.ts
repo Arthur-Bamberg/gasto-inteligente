@@ -34,3 +34,19 @@ export const isWithin30MinutesNow = (date: Date) => {
 
   return diffInMs >= 0 && diffInMs <= THIRTY_MINUTES_IN_MS;
 };
+
+export const convertBigIntToNumber = <T>(obj: unknown): T => {
+  if (typeof obj === 'bigint') {
+    return Number(obj) as T;
+  }
+
+  if (typeof obj === 'object' && obj !== null) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        obj[key] = convertBigIntToNumber(obj[key]);
+      }
+    }
+  }
+
+  return obj as T;
+};

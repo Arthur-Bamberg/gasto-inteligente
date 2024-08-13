@@ -163,7 +163,7 @@ export class UsersController {
       this.logger.error(`Erro ao desativar usuário: ${error}`);
 
       throw new InternalServerErrorException(
-        'Erro ao ao desativar usuário. ' + contactManagerMessage,
+        'Erro ao desativar usuário. ' + contactManagerMessage,
       );
     }
   }

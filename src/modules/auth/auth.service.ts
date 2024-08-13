@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { UserIdentity } from '../common/types/user-identity.type';
+import { convertBigIntToNumber } from '../common/utils';
 
 @Injectable()
 export class AuthService {
@@ -18,10 +19,7 @@ export class AuthService {
         'O e-mail ou a senha informados está incorreto.',
       );
 
-    return await this.genereateToken({
-      ...user,
-      id: Number(user.id),
-    });
+    return await this.genereateToken(convertBigIntToNumber(user));
   }
 
   async genereateToken(user: {

@@ -13,7 +13,7 @@ import { CodeGeneratorService } from '../common/services/code-generator.service'
 import { ENV } from '../common/env.config';
 import * as bcrypt from 'bcryptjs';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { isWithin30MinutesNow } from '../common/utils';
+import { convertBigIntToNumber, isWithin30MinutesNow } from '../common/utils';
 import { UserIdentity } from '../common/types/user-identity.type';
 
 @Injectable()
@@ -55,10 +55,9 @@ export class UsersService {
 
     const userData = await this.usersRepository.create(createUserDto);
 
-    return await this.authService.genereateToken({
-      ...userData,
-      id: Number(userData.id),
-    });
+    return await this.authService.genereateToken(
+      convertBigIntToNumber(userData),
+    );
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -84,10 +83,7 @@ export class UsersService {
 
     Object.assign(user, updatedUser);
 
-    return await this.authService.genereateToken({
-      ...user,
-      id: Number(user.id),
-    });
+    return await this.authService.genereateToken(convertBigIntToNumber(user));
   }
 
   async resetPassword(email: string) {
@@ -123,7 +119,7 @@ export class UsersService {
     if (!isValidCode) throw new BadRequestException('Código inválido.');
 
     const [userIdentity] = await Promise.all([
-      this.authService.genereateToken({ ...user, id: Number(user.id) }),
+      this.authService.genereateToken(convertBigIntToNumber(user)),
       this.usersRepository.changePassword(
         changePasswordDto.email,
         changePasswordDto.senha,

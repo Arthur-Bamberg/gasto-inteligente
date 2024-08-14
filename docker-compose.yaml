@@ -1,16 +1,28 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - app-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  ngrok:
+    image: wernight/ngrok
+    environment:
+      - NGROK_AUTH=${NGROK_AUTH}
+      - NGROK_PORT=app:3000
+    ports:
+      - "4040:4040"
+    depends_on:
+      - app
+    networks:
+      - app-network
 
   postgres:
     image: postgres:latest

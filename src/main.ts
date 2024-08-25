@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
-import { ENV } from './modules/common/env.config';
-import { HttpExceptionFilter } from './modules/common/filters/http-exception.filter';
-import { formatValidationErrors } from './modules/common/formatters/formatValidationErrors.formatter';
-import { BaseResponseException } from './modules/common/exceptions/base-response.exception';
+import { ENV } from './common/env.config';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { formatValidationErrors } from './common/formatters/formatValidationErrors.formatter';
+import { BaseResponseException } from './common/exceptions/base-response.exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

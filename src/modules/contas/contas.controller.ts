@@ -13,9 +13,9 @@ import {
 } from '@nestjs/common';
 import { ContasService } from './contas.service';
 import { CreateContaDto } from './dto/create-conta.dto';
-import { contactManagerMessage } from '../common/constants';
+import { contactManagerMessage } from '../../common/constants';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { convertBigIntToNumber } from '../common/utils';
+import { convertBigIntToNumber } from '../../common/utils';
 // import { UpdateContaDto } from './dto/update-conta.dto';
 
 @Controller('contas')

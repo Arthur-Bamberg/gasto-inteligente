@@ -5,9 +5,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
 import { JwtStrategy } from './modules/auth/strategies/jwt.strategy';
 import { ContasModule } from './modules/contas/contas.module';
+import { BancosModule } from './modules/bancos/bancos.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ContasModule],
+  imports: [AuthModule, UsersModule, ContasModule, BancosModule],
   providers: [
     {
       provide: APP_GUARD,

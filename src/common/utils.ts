@@ -50,3 +50,11 @@ export const convertBigIntToNumber = <T>(obj: unknown): T => {
 
   return obj as T;
 };
+
+/**
+ * Retorna o número de segundos desde 1 de janeiro de 1970 (Epoch Unix).
+ * @returns {number} O número de segundos desde 1 de janeiro de 1970.
+ */
+export function getSecondsNow(): number {
+  return Math.floor(Date.now() / 1000);
+}

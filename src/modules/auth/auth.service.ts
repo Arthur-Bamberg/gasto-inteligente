@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { UserIdentity } from '../common/types/user-identity.type';
-import { convertBigIntToNumber } from '../common/utils';
+import { UserIdentity } from '../../common/types/user-identity.type';
+import { convertBigIntToNumber } from '../../common/utils';
 
 @Injectable()
 export class AuthService {

@@ -7,14 +7,14 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
-import { contactManagerMessage } from '../common/constants';
+import { contactManagerMessage } from '../../common/constants';
 import { AuthService } from '../auth/auth.service';
-import { CodeGeneratorService } from '../common/services/code-generator.service';
-import { ENV } from '../common/env.config';
+import { CodeGeneratorService } from '../../common/services/code-generator.service';
+import { ENV } from '../../common/env.config';
 import * as bcrypt from 'bcryptjs';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { convertBigIntToNumber, isWithin30MinutesNow } from '../common/utils';
-import { UserIdentity } from '../common/types/user-identity.type';
+import { convertBigIntToNumber, isWithin30MinutesNow } from '../../common/utils';
+import { UserIdentity } from '../../common/types/user-identity.type';
 
 @Injectable()
 export class UsersService {

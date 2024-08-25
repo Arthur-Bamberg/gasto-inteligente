@@ -16,18 +16,18 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IsPublic } from 'src/modules/auth/decorators/is-public.decorator';
-import { HashPasswordPipe } from '../common/pipes/hash-password.pipe';
-import { TBaseResponse } from '../common/types/base-response.type';
-import { UserIdentity } from '../common/types/user-identity.type';
+import { HashPasswordPipe } from '../../common/pipes/hash-password.pipe';
+import { TBaseResponse } from '../../common/types/base-response.type';
+import { UserIdentity } from '../../common/types/user-identity.type';
 import { Auth } from '../auth/entities/auth.entity';
 import {
   contactManagerMessage,
   passwordInvalidMessage,
-} from '../common/constants';
-import { passwordValidator } from '../common/validators/password.validator';
+} from '../../common/constants';
+import { passwordValidator } from '../../common/validators/password.validator';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { validateDTO } from '../common/utils';
+import { validateDTO } from '../../common/utils';
 
 @Controller('users')
 export class UsersController {

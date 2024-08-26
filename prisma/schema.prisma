@@ -44,6 +44,7 @@ model bancos {
 model contas {
   id         BigInt    @id @default(autoincrement())
   nome       String
+  saldo      Float
   banco_id   BigInt
   usuario_id BigInt
   created_at DateTime  @default(now())

@@ -7,8 +7,9 @@ import {
   HttpException,
   InternalServerErrorException,
   Req,
-  // Patch,
-  // Param,
+  Patch,
+  Param,
+  ParseIntPipe,
   // Delete,
 } from '@nestjs/common';
 import { ContasService } from './contas.service';
@@ -16,7 +17,7 @@ import { CreateContaDto } from './dto/create-conta.dto';
 import { contactManagerMessage } from '../../common/constants';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { convertBigIntToNumber } from '../../common/utils';
-// import { UpdateContaDto } from './dto/update-conta.dto';
+import { UpdateContaDto } from './dto/update-conta.dto';
 
 @Controller('contas')
 export class ContasController {
@@ -71,14 +72,38 @@ export class ContasController {
     }
   }
 
+  @Patch(':id')
+  async update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() updateContaDto: UpdateContaDto,
+    @Req() req: RequestWithUser,
+  ) {
+    try {
+      const data = await this.contasService.update(
+        id,
+        updateContaDto,
+        req.user.sub,
+      );
+
+      return {
+        success: true,
+        statusCode: 200,
+        data: convertBigIntToNumber(data),
+      };
+    } catch (error) {
+      if (error instanceof HttpException) throw error;
+
+      this.logger.error(`Erro ao atualizar conta: ${error}`);
+
+      throw new InternalServerErrorException(
+        'Erro ao atualizar conta. ' + contactManagerMessage,
+      );
+    }
+  }
+
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.contasService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateContaDto: UpdateContaDto) {
-  //   return this.contasService.update(+id, updateContaDto);
   // }
 
   // @Delete(':id')

@@ -1,4 +1,10 @@
-import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateContaDto {
   @IsString({ message: 'A propriedade `nome` deve ser uma string' })
@@ -10,4 +16,7 @@ export class CreateContaDto {
     message: 'A propriedade `banco_id` deve ser um número positivo',
   })
   banco_id: number;
+
+  @IsNumber({}, { message: 'A propriedade `saldo` deve ser um número' })
+  saldo: number;
 }

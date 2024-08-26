@@ -5,6 +5,7 @@ import { PrismaService } from '../../common/services/prisma.service';
 import { CodeGeneratorService } from '../../common/services/code-generator.service';
 import { UsersRepository } from './users.repository';
 import { AuthModule } from '../auth/auth.module';
+import { EmailService } from 'src/common/services/email.service';
 
 @Module({
   imports: [AuthModule],
@@ -14,6 +15,7 @@ import { AuthModule } from '../auth/auth.module';
     UsersRepository,
     PrismaService,
     CodeGeneratorService,
+    EmailService,
   ],
   exports: [UsersService],
 })

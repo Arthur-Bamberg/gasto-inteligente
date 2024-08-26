@@ -13,8 +13,12 @@ import { CodeGeneratorService } from '../../common/services/code-generator.servi
 import { ENV } from '../../common/env.config';
 import * as bcrypt from 'bcryptjs';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { convertBigIntToNumber, isWithin30MinutesNow } from '../../common/utils';
+import {
+  convertBigIntToNumber,
+  isWithin30MinutesNow,
+} from '../../common/utils';
 import { UserIdentity } from '../../common/types/user-identity.type';
+import { EmailService } from 'src/common/services/email.service';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +26,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
     private readonly authService: AuthService,
     private readonly codeGeneratorService: CodeGeneratorService,
+    private readonly emailService: EmailService,
   ) {}
 
   async login(email: string, password: string): Promise<UserIdentity> {
@@ -97,8 +102,7 @@ export class UsersService {
 
     await this.usersRepository.updateCode(user.id, hashedCode);
 
-    // TODO: Send e-mail with code
-    console.log(code);
+    await this.sendResetPasswordEmail(user.email, user.nome, code);
   }
 
   async updatePassword(changePasswordDto: ChangePasswordDto) {
@@ -131,5 +135,27 @@ export class UsersService {
 
   async disable(id: number) {
     await this.usersRepository.disable(id);
+  }
+
+  private async sendResetPasswordEmail(
+    email: string,
+    name: string,
+    code: string,
+  ) {
+    const message = `
+      <h1>Olá, ${name}!</h1>
+      <p>
+        Você solicitou a recuperação de senha. Utilize o código abaixo para redefinir sua senha.
+      </p>
+      <h2>Código de recuperação: ${code}</h2>
+      <p>Atenciosamente,</p>
+      <p>Equipe Gasto Inteligente</p>
+    `;
+
+    await this.emailService.sendEmail(
+      email,
+      'Gasto Inteligente - Recuperação de Senha',
+      message,
+    );
   }
 }

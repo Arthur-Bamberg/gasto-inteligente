@@ -10,6 +10,9 @@ const envSchema = z.object({
   SALT: z.string(),
   JWT_SECRET: z.string(),
   PORT: z.coerce.number(),
+  EMAIL_SERVER: z.string(),
+  EMAIL_USER: z.string(),
+  EMAIL_PASS: z.string(),
 });
 
 type ENVIRONMENT = z.infer<typeof envSchema>;

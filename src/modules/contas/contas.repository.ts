@@ -18,6 +18,12 @@ export class ContasRepository {
 
   async findAll(userId: number) {
     return this.prismaService.contas.findMany({
+      select: {
+        id: true,
+        nome: true,
+        saldo: true,
+        banco: true,
+      },
       where: {
         usuario_id: userId,
         deleted_at: null,

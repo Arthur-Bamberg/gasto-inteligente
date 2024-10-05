@@ -6,9 +6,16 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
 import { JwtStrategy } from './modules/auth/strategies/jwt.strategy';
 import { ContasModule } from './modules/contas/contas.module';
 import { BancosModule } from './modules/bancos/bancos.module';
+import { TransacoesModule } from './modules/transacoes/transacoes.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ContasModule, BancosModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    ContasModule,
+    BancosModule,
+    TransacoesModule,
+  ],
   providers: [
     {
       provide: APP_GUARD,

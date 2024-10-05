@@ -7,6 +7,7 @@ import { JwtStrategy } from './modules/auth/strategies/jwt.strategy';
 import { ContasModule } from './modules/contas/contas.module';
 import { BancosModule } from './modules/bancos/bancos.module';
 import { TransacoesModule } from './modules/transacoes/transacoes.module';
+import { CategoriasModule } from './modules/categorias/categorias.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TransacoesModule } from './modules/transacoes/transacoes.module';
     ContasModule,
     BancosModule,
     TransacoesModule,
+    CategoriasModule,
   ],
   providers: [
     {

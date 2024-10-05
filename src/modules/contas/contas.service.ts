@@ -12,11 +12,11 @@ export class ContasService {
   constructor(private readonly contasRepository: ContasRepository) {}
 
   async create(createContaDto: CreateContaDto, userId: number) {
-    return await this.contasRepository.create(createContaDto, userId);
+    return this.contasRepository.create(createContaDto, userId);
   }
 
   async findAll(userId: number) {
-    return await this.contasRepository.findAll(userId);
+    return this.contasRepository.findAll(userId);
   }
 
   async findOne(id: number) {

@@ -31,8 +31,10 @@ export class ContasRepository {
     });
   }
 
-  async findOne(id: number) {
-    return this.prismaService.contas.findUnique({ where: { id } });
+  async findOne(id: number, userId: number) {
+    return this.prismaService.contas.findUnique({
+      where: { id, usuario_id: userId },
+    });
   }
 
   async update(id: number, conta: UpdateContaDto) {

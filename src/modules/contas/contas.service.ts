@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
 import { ContasRepository } from './contas.repository';
@@ -19,17 +15,16 @@ export class ContasService {
     return this.contasRepository.findAll(userId);
   }
 
-  async findOne(id: number) {
-    return this.contasRepository.findOne(id);
-  }
-
-  async update(id: number, updateContaDto: UpdateContaDto, userId: number) {
-    const conta = await this.contasRepository.findOne(id);
+  async findOne(id: number, userId: number) {
+    const conta = await this.contasRepository.findOne(id, userId);
 
     if (!conta) throw new NotFoundException('Conta não encontrada');
 
-    if (Number(conta.usuario_id) !== userId)
-      throw new UnauthorizedException('Conta não autorizada para o usuário');
+    return conta;
+  }
+
+  async update(id: number, updateContaDto: UpdateContaDto, userId: number) {
+    await this.findOne(id, userId);
 
     return this.contasRepository.update(id, updateContaDto);
   }

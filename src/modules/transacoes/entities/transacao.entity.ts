@@ -5,6 +5,7 @@ export class Transacao {
   tipo: TipoTransacao;
   data: Date;
   descricao?: string;
+  conta_id: number;
   categoria_id?: number;
   loja_id?: number;
   usuario_id: number;

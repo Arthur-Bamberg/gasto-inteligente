@@ -27,6 +27,10 @@ export class CreateTransacaoDto {
   @IsOptional()
   descricao?: string;
 
+  @IsNumber({}, { message: '`conta_id` deve ser um número' })
+  @IsNotEmpty({ message: '`conta_id` é obrigatório' })
+  conta_id: number;
+
   @IsNumber({}, { message: '`categoria_id` deve ser um número' })
   @IsOptional()
   categoria_id?: number;

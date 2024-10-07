@@ -7,5 +7,6 @@ import { PrismaService } from '../../common/services/prisma.service';
 @Module({
   controllers: [ContasController],
   providers: [ContasService, ContasRepository, PrismaService],
+  exports: [ContasService],
 })
 export class ContasModule {}

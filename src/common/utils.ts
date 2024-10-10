@@ -58,3 +58,23 @@ export const convertBigIntToNumber = <T>(obj: unknown): T => {
 export function getSecondsNow(): number {
   return Math.floor(Date.now() / 1000);
 }
+
+export const isValidDate = (dateString: string): boolean => {
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!regex.test(dateString)) {
+    return false;
+  }
+
+  const date = new Date(dateString);
+  const [year, month, day] = dateString.split('-').map(Number);
+
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() + 1 !== month ||
+    date.getUTCDate() !== day
+  ) {
+    return false;
+  }
+
+  return true;
+};

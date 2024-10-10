@@ -32,6 +32,32 @@ export class CategoriasRepository {
     });
   }
 
+  async findTransacoesByCategorias(
+    userId: number,
+    startDate: Date,
+    endDate: Date,
+  ) {
+    return this.prisma.categorias.findMany({
+      select: {
+        id: true,
+        nome: true,
+        transacoes: {
+          where: {
+            data: {
+              gte: startDate,
+              lte: endDate,
+            },
+            deleted_at: null,
+          },
+        },
+      },
+      where: {
+        usuario_id: userId,
+        deleted_at: null,
+      },
+    });
+  }
+
   async findOne(id: number, userId: number) {
     return this.prisma.categorias.findUnique({
       where: {

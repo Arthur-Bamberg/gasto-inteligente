@@ -10,6 +10,7 @@ import {
   HttpException,
   Logger,
   InternalServerErrorException,
+  Query,
 } from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
@@ -18,6 +19,7 @@ import { convertBigIntToNumber } from 'src/common/utils';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { contactManagerMessage } from 'src/common/constants';
 import { PositiveIntegerPipe } from 'src/common/pipes/positive-integer.pipe';
+import { DatePipe } from 'src/common/pipes/date.pipe';
 
 @Controller('categorias')
 export class CategoriasController {
@@ -55,6 +57,35 @@ export class CategoriasController {
   async findAll(@Req() req: RequestWithUser) {
     try {
       const data = await this.categoriasService.findAll(req.user.sub);
+
+      return {
+        success: true,
+        statusCode: 200,
+        data: convertBigIntToNumber(data),
+      };
+    } catch (error) {
+      if (error instanceof HttpException) throw error;
+
+      this.logger.error(`Erro ao buscar categorias: ${error}`);
+
+      throw new InternalServerErrorException(
+        'Erro ao buscar categorias. ' + contactManagerMessage,
+      );
+    }
+  }
+
+  @Get('transacoes')
+  async findTransacoesByCategorias(
+    @Req() req: RequestWithUser,
+    @Query('start-date', new DatePipe()) startDate: Date,
+    @Query('end-date', new DatePipe()) endDate: Date,
+  ) {
+    try {
+      const data = await this.categoriasService.findTransacoesByCategorias(
+        req.user.sub,
+        startDate,
+        endDate,
+      );
 
       return {
         success: true,

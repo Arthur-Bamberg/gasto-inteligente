@@ -67,8 +67,9 @@ export class TransacoesService {
           updateTransacaoDto.conta_id ??
             (transacao.conta_id as unknown as number),
           updateTransacaoDto.valor - transacao.valor,
-          updateTransacaoDto.tipo === TipoTransacao.DESPESA ??
-            (transacao.tipo as TipoTransacao) === TipoTransacao.DESPESA,
+          updateTransacaoDto.tipo
+            ? updateTransacaoDto.tipo === TipoTransacao.DESPESA
+            : (transacao.tipo as TipoTransacao) === TipoTransacao.DESPESA,
           userId,
         );
         break;

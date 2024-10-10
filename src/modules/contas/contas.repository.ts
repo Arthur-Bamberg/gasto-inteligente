@@ -23,6 +23,7 @@ export class ContasRepository {
         nome: true,
         saldo: true,
         banco: true,
+        transacoes: true,
       },
       where: {
         usuario_id: userId,

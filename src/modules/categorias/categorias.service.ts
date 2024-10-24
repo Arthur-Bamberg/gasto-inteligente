@@ -27,18 +27,20 @@ export class CategoriasService {
         endDate,
       );
 
-    return categorias.map((categoria) => {
-      let amount = 0;
+    return categorias
+      .map((categoria) => {
+        let amount = 0;
 
-      for (const transacao of categoria.transacoes) {
-        amount += transacao.valor;
-      }
+        for (const transacao of categoria.transacoes) {
+          amount += transacao.valor;
+        }
 
-      return {
-        ...categoria,
-        amount,
-      };
-    });
+        return {
+          ...categoria,
+          amount,
+        };
+      })
+      .filter((categoria) => categoria.transacoes.length);
   }
 
   async findOne(id: number, userId: number) {

@@ -37,6 +37,12 @@ export class CategoriasRepository {
     startDate: Date,
     endDate: Date,
   ) {
+    const startOfDay = new Date(startDate);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
     return this.prisma.categorias.findMany({
       select: {
         id: true,
@@ -44,8 +50,8 @@ export class CategoriasRepository {
         transacoes: {
           where: {
             data: {
-              gte: startDate,
-              lte: endDate,
+              gte: startOfDay,
+              lte: endOfDay,
             },
             deleted_at: null,
           },

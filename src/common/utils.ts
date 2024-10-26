@@ -43,7 +43,9 @@ export const convertBigIntToNumber = <T>(obj: unknown): T => {
   if (typeof obj === 'object' && obj !== null) {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
-        obj[key] = convertBigIntToNumber(obj[key]);
+        (obj as Record<string, unknown>)[key] = convertBigIntToNumber(
+          (obj as Record<string, unknown>)[key],
+        );
       }
     }
   }

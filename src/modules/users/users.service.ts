@@ -112,7 +112,7 @@ export class UsersService {
 
     if (!user) throw new NotFoundException('Usuário não encontrado.');
 
-    if (!isWithin30MinutesNow(user.updated_at))
+    if (!user.codigo_recuperacao || !isWithin30MinutesNow(user.updated_at))
       throw new BadRequestException('Código expirado.');
 
     const isValidCode = await this.codeGeneratorService.validateCode(

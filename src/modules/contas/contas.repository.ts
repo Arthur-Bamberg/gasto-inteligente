@@ -16,6 +16,22 @@ export class ContasRepository {
     });
   }
 
+  async getTransacoes(contaId: number) {
+    return this.prismaService.contas.findUnique({
+      select: {
+        id: true,
+        nome: true,
+        saldo: true,
+        banco: true,
+        transacoes: true,
+      },
+      where: {
+        id: contaId,
+        deleted_at: null,
+      },
+    });
+  }
+
   async findAll(userId: number) {
     return this.prismaService.contas.findMany({
       select: {
@@ -42,6 +58,17 @@ export class ContasRepository {
     return this.prismaService.contas.update({
       where: { id },
       data: conta,
+    });
+  }
+
+  async deactivate(id: number) {
+    return this.prismaService.contas.update({
+      data: {
+        deleted_at: new Date(),
+      },
+      where: {
+        id,
+      },
     });
   }
 }

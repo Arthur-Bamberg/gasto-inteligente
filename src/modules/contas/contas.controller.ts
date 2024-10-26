@@ -10,6 +10,7 @@ import {
   Patch,
   Param,
   ParseIntPipe,
+  Delete,
   // Delete,
 } from '@nestjs/common';
 import { ContasService } from './contas.service';
@@ -72,6 +73,33 @@ export class ContasController {
     }
   }
 
+  @Get(':id/transacoes')
+  async getTransacoesByConta(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Req() req: RequestWithUser,
+  ) {
+    try {
+      const data = await this.contasService.getTransacoesByConta(
+        id,
+        req.user.sub,
+      );
+
+      return {
+        success: true,
+        statusCode: 200,
+        data: convertBigIntToNumber(data),
+      };
+    } catch (error) {
+      if (error instanceof HttpException) throw error;
+
+      this.logger.error(`Erro ao buscar transações por conta: ${error}`);
+
+      throw new InternalServerErrorException(
+        'Erro ao buscar transações por conta. ' + contactManagerMessage,
+      );
+    }
+  }
+
   @Patch(':id')
   async update(
     @Param('id', new ParseIntPipe()) id: number,
@@ -101,13 +129,27 @@ export class ContasController {
     }
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.contasService.findOne(+id);
-  // }
+  @Delete(':id')
+  async deactivate(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Req() req: RequestWithUser,
+  ) {
+    try {
+      const data = await this.contasService.deactivate(id, req.user.sub);
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.contasService.remove(+id);
-  // }
+      return {
+        success: true,
+        statusCode: 200,
+        data: convertBigIntToNumber(data),
+      };
+    } catch (error) {
+      if (error instanceof HttpException) throw error;
+
+      this.logger.error(`Erro ao desativar conta: ${error}`);
+
+      throw new InternalServerErrorException(
+        'Erro ao desativar conta. ' + contactManagerMessage,
+      );
+    }
+  }
 }

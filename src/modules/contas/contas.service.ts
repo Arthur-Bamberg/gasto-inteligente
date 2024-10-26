@@ -15,6 +15,12 @@ export class ContasService {
     return this.contasRepository.findAll(userId);
   }
 
+  async getTransacoesByConta(contaId: number, userId: number) {
+    await this.findOne(contaId, userId);
+
+    return await this.contasRepository.getTransacoes(contaId);
+  }
+
   async findOne(id: number, userId: number) {
     const conta = await this.contasRepository.findOne(id, userId);
 
@@ -29,7 +35,9 @@ export class ContasService {
     return this.contasRepository.update(id, updateContaDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} conta`;
+  async deactivate(contaId: number, userId: number) {
+    await this.findOne(contaId, userId);
+
+    return this.contasRepository.deactivate(contaId);
   }
 }

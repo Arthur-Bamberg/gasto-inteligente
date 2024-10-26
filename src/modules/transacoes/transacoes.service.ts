@@ -52,32 +52,38 @@ export class TransacoesService {
 
     const tiposMaisSaldo = [TipoTransacao.INVESTIMENTO, TipoTransacao.RECEITA];
 
-    const valoresDiferentes =
-      updateTransacaoDto.valor && updateTransacaoDto.valor !== transacao.valor;
+    const valoresDiferentes = Boolean(
+      updateTransacaoDto.valor && updateTransacaoDto.valor !== transacao.valor,
+    );
 
     const tiposEquivalentes =
       updateTransacaoDto.tipo === transacao.tipo ||
+      !updateTransacaoDto.tipo ||
       (tiposMaisSaldo.includes(updateTransacaoDto.tipo) &&
-        tiposMaisSaldo.includes(transacao.tipo as TipoTransacao)) ||
-      !updateTransacaoDto.tipo;
+        tiposMaisSaldo.includes(transacao.tipo as TipoTransacao));
 
     switch (true) {
-      case valoresDiferentes && tiposEquivalentes:
+      case valoresDiferentes &&
+        tiposEquivalentes &&
+        Boolean(updateTransacaoDto.valor):
         await this.updateSaldo(
           updateTransacaoDto.conta_id ??
             (transacao.conta_id as unknown as number),
-          updateTransacaoDto.valor - transacao.valor,
+          updateTransacaoDto.valor! - transacao.valor,
           updateTransacaoDto.tipo
             ? updateTransacaoDto.tipo === TipoTransacao.DESPESA
             : (transacao.tipo as TipoTransacao) === TipoTransacao.DESPESA,
           userId,
         );
         break;
-      case valoresDiferentes && updateTransacaoDto.tipo && !tiposEquivalentes:
+      case valoresDiferentes &&
+        updateTransacaoDto.tipo &&
+        !tiposEquivalentes &&
+        Boolean(updateTransacaoDto.valor):
         await this.updateSaldo(
           updateTransacaoDto.conta_id ??
             (transacao.conta_id as unknown as number),
-          updateTransacaoDto.valor + transacao.valor,
+          updateTransacaoDto.valor! + transacao.valor,
           updateTransacaoDto.tipo === TipoTransacao.DESPESA,
           userId,
         );

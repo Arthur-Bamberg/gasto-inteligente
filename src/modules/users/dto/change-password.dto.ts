@@ -6,6 +6,6 @@ export class ChangePasswordDto extends PickType(CreateUserDto, [
   'email',
   'senha',
 ]) {
-  @IsUUID(null, { message: 'Código de recuperação inválido.' })
+  @IsUUID(undefined, { message: 'Código de recuperação inválido.' })
   codigo_recuperacao: string;
 }

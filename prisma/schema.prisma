@@ -42,6 +42,22 @@ model bancos {
   @@index([deleted_at], name: "bancos_deleted_at_idx")
 }
 
+model objetivos {
+  id         BigInt    @id @default(autoincrement())
+  nome       String
+  valor      Float
+  conta_id   BigInt
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  conta contas @relation(fields: [conta_id], references: [id])
+
+  @@index([created_at], name: "objetivos_created_at_idx")
+  @@index([updated_at], name: "objetivos_updated_at_idx")
+  @@index([deleted_at], name: "objetivos_deleted_at_idx")
+}
+
 model contas {
   id         BigInt    @id @default(autoincrement())
   nome       String
@@ -55,6 +71,7 @@ model contas {
   banco      bancos       @relation(fields: [banco_id], references: [id])
   usuario    usuarios     @relation(fields: [usuario_id], references: [id])
   transacoes transacoes[]
+  objetivos  objetivos[]
 
   @@index([created_at], name: "contas_created_at_idx")
   @@index([updated_at], name: "contas_updated_at_idx")

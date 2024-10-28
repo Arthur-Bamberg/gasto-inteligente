@@ -8,6 +8,7 @@ import { ContasModule } from './modules/contas/contas.module';
 import { BancosModule } from './modules/bancos/bancos.module';
 import { TransacoesModule } from './modules/transacoes/transacoes.module';
 import { CategoriasModule } from './modules/categorias/categorias.module';
+import { ObjetivosModule } from './modules/objetivos/objetivos.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CategoriasModule } from './modules/categorias/categorias.module';
     BancosModule,
     TransacoesModule,
     CategoriasModule,
+    ObjetivosModule,
   ],
   providers: [
     {

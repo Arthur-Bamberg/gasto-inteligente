@@ -11,7 +11,6 @@ import {
   Param,
   ParseIntPipe,
   Delete,
-  // Delete,
 } from '@nestjs/common';
 import { ContasService } from './contas.service';
 import { CreateContaDto } from './dto/create-conta.dto';

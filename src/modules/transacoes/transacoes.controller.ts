@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Logger,
   HttpException,
   InternalServerErrorException,
   Req,
@@ -18,10 +17,11 @@ import { contactManagerMessage } from 'src/common/constants';
 import { convertBigIntToNumber } from 'src/common/utils';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { PositiveIntegerPipe } from 'src/common/pipes/positive-integer.pipe';
+import { DetailedLogger } from 'src/common/loggers/detailed.logger';
 
 @Controller('transacoes')
 export class TransacoesController {
-  private readonly logger = new Logger(TransacoesController.name);
+  private readonly logger = new DetailedLogger(TransacoesController.name);
 
   constructor(private readonly transacoesService: TransacoesService) {}
 

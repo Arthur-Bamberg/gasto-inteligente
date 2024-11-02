@@ -8,7 +8,6 @@ import {
   Delete,
   Req,
   HttpException,
-  Logger,
   InternalServerErrorException,
   Query,
 } from '@nestjs/common';
@@ -20,10 +19,11 @@ import { RequestWithUser } from '../auth/interfaces/request-with-user.interface'
 import { contactManagerMessage } from 'src/common/constants';
 import { PositiveIntegerPipe } from 'src/common/pipes/positive-integer.pipe';
 import { DatePipe } from 'src/common/pipes/date.pipe';
+import { DetailedLogger } from 'src/common/loggers/detailed.logger';
 
 @Controller('categorias')
 export class CategoriasController {
-  private readonly logger = new Logger(CategoriasController.name);
+  private readonly logger = new DetailedLogger(CategoriasController.name);
   constructor(private readonly categoriasService: CategoriasService) {}
 
   @Post()

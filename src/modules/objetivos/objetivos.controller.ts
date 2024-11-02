@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Logger,
   HttpException,
   InternalServerErrorException,
   Req,
@@ -18,10 +17,11 @@ import { UpdateObjetivoDto } from './dto/update-objetivo.dto';
 import { convertBigIntToNumber } from 'src/common/utils';
 import { contactManagerMessage } from 'src/common/constants';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
+import { DetailedLogger } from 'src/common/loggers/detailed.logger';
 
 @Controller('objetivos')
 export class ObjetivosController {
-  private readonly logger = new Logger(ObjetivosController.name);
+  private readonly logger = new DetailedLogger(ObjetivosController.name);
 
   constructor(private readonly objetivosService: ObjetivosService) {}
 

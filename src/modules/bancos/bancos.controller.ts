@@ -3,17 +3,17 @@ import {
   Get,
   HttpException,
   InternalServerErrorException,
-  Logger,
 } from '@nestjs/common';
 import { BancosService } from './bancos.service';
 import { TBaseResponse } from 'src/common/types/base-response.type';
 import { convertBigIntToNumber } from 'src/common/utils';
 import { contactManagerMessage } from 'src/common/constants';
 import { Banco } from './entities/banco.entity';
+import { DetailedLogger } from 'src/common/loggers/detailed.logger';
 
 @Controller('bancos')
 export class BancosController {
-  private readonly logger = new Logger(BancosController.name);
+  private readonly logger = new DetailedLogger(BancosController.name);
 
   constructor(private readonly bancosService: BancosService) {}
 

@@ -5,7 +5,6 @@ import {
   Patch,
   Delete,
   HttpException,
-  Logger,
   InternalServerErrorException,
   BadRequestException,
   Req,
@@ -28,10 +27,11 @@ import { passwordValidator } from '../../common/validators/password.validator';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { validateDTO } from '../../common/utils';
+import { DetailedLogger } from 'src/common/loggers/detailed.logger';
 
 @Controller('users')
 export class UsersController {
-  private readonly logger = new Logger(UsersController.name);
+  private readonly logger = new DetailedLogger(UsersController.name);
 
   constructor(private readonly usersService: UsersService) {}
 

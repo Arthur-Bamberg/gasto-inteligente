@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Logger,
   HttpException,
   InternalServerErrorException,
   Req,
@@ -18,10 +17,11 @@ import { contactManagerMessage } from '../../common/constants';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { convertBigIntToNumber } from '../../common/utils';
 import { UpdateContaDto } from './dto/update-conta.dto';
+import { DetailedLogger } from 'src/common/loggers/detailed.logger';
 
 @Controller('contas')
 export class ContasController {
-  private readonly logger = new Logger(ContasController.name);
+  private readonly logger = new DetailedLogger(ContasController.name);
   constructor(private readonly contasService: ContasService) {}
 
   @Post()

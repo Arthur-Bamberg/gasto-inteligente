@@ -18,8 +18,8 @@ export class ObjetivosRepository {
       where: {
         conta: {
           usuario_id: userId,
-          deleted_at: null,
         },
+        deleted_at: null,
       },
     });
   }
